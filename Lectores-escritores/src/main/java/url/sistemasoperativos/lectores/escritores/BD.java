@@ -46,10 +46,24 @@ public class BD {
 
     public synchronized void openE(int id, JLabel jLabel2, JLabel jLabel4) throws InterruptedException {
         //escritor empieza
+        NEscritor++;
+        while (HayEscritor || NLectores > 0) {
+            wait();
+        }
+        HayEscritor = true;
+        jLabel4.setBackground(Color.green);
+        jLabel2.setIcon(new javax.swing.ImageIcon("src/main/java/url/sistemasoperativos/lectores/escritores/imagenes/e2.gif"));
+
+        System.out.println("Escritor " + (id + 1) + " empezo a escribir");
     }
 
     public synchronized void closeE(int id, JLabel jLabel2, JLabel jLabel4) {
         //escritor termina
-
+        NEscritor--;
+        System.out.println("Escritor " + (id + 1) + " termino de escribir");
+        jLabel4.setBackground(Color.red);
+        jLabel2.setIcon(new javax.swing.ImageIcon("src/main/java/url/sistemasoperativos/lectores/escritores/imagenes/e2-0000.jpg"));
+        HayEscritor = false;
+        notifyAll();
     }
 }
