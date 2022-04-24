@@ -4,6 +4,8 @@
  */
 package url.sistemasoperativos.lectores.escritores;
 
+import javax.swing.DefaultListModel;
+
 /**
  *
  * @author aleja
@@ -13,8 +15,14 @@ public class main extends javax.swing.JFrame {
     /**
      * Creates new form main
      */
+    DefaultListModel modelo = new DefaultListModel();
+
     public main() {
         initComponents();
+        jList1.setModel(modelo);
+        jLabel1.setIcon(new javax.swing.ImageIcon("src/main/java/url/sistemasoperativos/lectores/escritores/imagenes/leer-0000.jpg"));
+        jLabel2.setIcon(new javax.swing.ImageIcon("src/main/java/url/sistemasoperativos/lectores/escritores/imagenes/e2-0000.jpg"));
+
     }
 
     /**
@@ -41,11 +49,9 @@ public class main extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("jLabel1");
         jLabel1.setOpaque(true);
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("jLabel2");
         jLabel2.setOpaque(true);
 
         jLabel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -59,6 +65,11 @@ public class main extends javax.swing.JFrame {
         jLabel4.setOpaque(true);
 
         jButton1.setText("INICIAR");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -111,6 +122,26 @@ public class main extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        BD base_de_datos = new BD();
+        Escritor[] esc = new Escritor[1];
+        Lector[] lector = new Lector[5];
+
+        for (int i = 0; i < esc.length; i++) {
+            esc[i] = new Escritor(base_de_datos, i, jLabel2, jLabel4);
+        }
+        for (int i = 0; i < lector.length; i++) {
+            lector[i] = new Lector(base_de_datos, i, jLabel1, modelo, jLabel3);
+        }
+        for (int i = 0; i < lector.length; i++) {
+            lector[i].start();
+        }
+        for (int i = 0; i < esc.length; i++) {
+            esc[i].start();
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
